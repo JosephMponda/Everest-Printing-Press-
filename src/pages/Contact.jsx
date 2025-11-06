@@ -39,7 +39,7 @@ const Contact = () => {
         </svg>
       ),
       title: 'Call Us',
-      details: ['+265 999 123 456', '+265 888 123 456']
+      details: ['+265 999 411 680', '+265 888 891 819']
     },
     {
       icon: (
@@ -48,7 +48,7 @@ const Contact = () => {
         </svg>
       ),
       title: 'Email Us',
-      details: ['info@everestprinting.mw', 'orders@everestprinting.mw']
+      details: ['everestpaperproducts@yahoo.com', 'info@everestprinting.mw']
     },
     {
       icon: (
@@ -189,8 +189,8 @@ const Contact = () => {
                 <p className="text-gray-700 mb-4">
                   For urgent printing needs or immediate support, please call us directly during business hours.
                 </p>
-                <a href="tel:+265999123456" className="btn-primary inline-block">
-                  Call Now: +265 999 123 456
+                <a href="tel:+265999411680" className="btn-primary inline-block">
+                  Call Now: +265 999 411 680
                 </a>
               </div>
             </div>

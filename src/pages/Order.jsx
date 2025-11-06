@@ -83,7 +83,7 @@ const Order = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary-600 focus:outline-none"
-                    placeholder="+265 999 123 456"
+                    placeholder="+265 999 411 680"
                   />
                 </div>
 
@@ -168,11 +168,11 @@ const Order = () => {
                 <ul className="space-y-2 text-gray-700">
                   <li className="flex items-start">
                     <span className="font-semibold mr-2">Airtel Money:</span>
-                    <span>+265 999 123 456</span>
+                    <span>+265 999 411 680</span>
                   </li>
                   <li className="flex items-start">
                     <span className="font-semibold mr-2">TNM Mpamba:</span>
-                    <span>+265 888 123 456</span>
+                    <span>+265 888 891 819</span>
                   </li>
                   <li className="flex items-start">
                     <span className="font-semibold mr-2">Bank:</span>

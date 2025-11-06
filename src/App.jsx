@@ -10,12 +10,14 @@ import Gallery from './pages/Gallery'
 import Order from './pages/Order'
 import About from './pages/About'
 import Contact from './pages/Contact'
+import ScrollToTop from './components/ScrollToTop'
 
 
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="min-h-screen flex flex-col">
         <Navbar />
         <main className="flex-grow">

@@ -8,6 +8,7 @@ import Gallery from './pages/Gallery'
 import Order from './pages/Order'
 import About from './pages/About'
 import Contact from './pages/Contact'
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
+        <SpeedInsights />
       </div>
     </Router>
   )

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
+  const { user, logout } = useAuth()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -23,6 +26,12 @@ const Navbar = () => {
   ]
 
   const isHome = location.pathname === '/'
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
+    setIsMobileMenuOpen(false)
+  }
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-300 ${
@@ -63,9 +72,26 @@ const Navbar = () => {
                 }`}></span>
               </Link>
             ))}
-            <Link to="/order" className="btn-primary">
-              Order Now
-            </Link>
+            
+            {user ? (
+              <>
+                <span className={`text-sm ${isScrolled || !isHome ? 'text-gray-600' : 'text-gray-200'}`}>
+                  {user.name}
+                </span>
+                <button onClick={handleLogout} className="btn-primary">
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className={`font-medium ${isScrolled || !isHome ? 'text-gray-700 hover:text-primary-600' : 'text-gray-200 hover:text-white'}`}>
+                  Login
+                </Link>
+                <Link to="/order" className="btn-primary">
+                  Order Now
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -100,6 +126,38 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
+            
+            {user ? (
+              <>
+                <div className="py-3 px-4 text-gray-600 text-sm border-t mt-2">
+                  Welcome, {user.name}
+                </div>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-center mt-2 py-3 px-4 rounded-lg font-medium text-red-600 hover:bg-red-50"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block mt-4 text-center py-3 px-4 rounded-lg font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="block mt-2 text-center py-3 px-4 rounded-lg font-medium text-primary-600 hover:bg-primary-50"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
+            
             <Link
               to="/order"
               onClick={() => setIsMobileMenuOpen(false)}

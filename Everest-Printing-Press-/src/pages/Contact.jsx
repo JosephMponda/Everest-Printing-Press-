@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { contactAPI } from '../api/services'
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -10,11 +11,30 @@ const Contact = () => {
   })
 
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 5000)
+    setLoading(true)
+    setError('')
+
+    try {
+      await contactAPI.sendMessage(formData)
+      setSubmitted(true)
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: ''
+      })
+      setTimeout(() => setSubmitted(false), 5000)
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to send message. Please try again.')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleChange = (e) => {
@@ -93,7 +113,14 @@ const Contact = () => {
               {submitted && (
                 <div className="mb-6 p-4 bg-green-100 border-2 border-green-500 rounded-lg text-green-800">
                   <p className="font-bold">Message Sent!</p>
-                  <p className="text-sm">We'll get back to you soon.</p>
+                  <p className="text-sm">We'll get back to you soon. A confirmation email has been sent to your inbox.</p>
+                </div>
+              )}
+
+              {error && (
+                <div className="mb-6 p-4 bg-red-100 border-2 border-red-500 rounded-lg text-red-800">
+                  <p className="font-bold">Error</p>
+                  <p className="text-sm">{error}</p>
                 </div>
               )}
 
@@ -106,7 +133,8 @@ const Contact = () => {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary-600 focus:outline-none"
+                    disabled={loading}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary-600 focus:outline-none disabled:bg-gray-100"
                     placeholder="Your Name"
                   />
                 </div>
@@ -119,7 +147,8 @@ const Contact = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary-600 focus:outline-none"
+                    disabled={loading}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary-600 focus:outline-none disabled:bg-gray-100"
                     placeholder="your@email.com"
                   />
                 </div>
@@ -131,20 +160,21 @@ const Contact = () => {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary-600 focus:outline-none"
+                    disabled={loading}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary-600 focus:outline-none disabled:bg-gray-100"
                     placeholder="+265 999 123 456"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-gray-700 font-semibold mb-2">Subject *</label>
+                  <label className="block text-gray-700 font-semibold mb-2">Subject</label>
                   <input
                     type="text"
                     name="subject"
-                    required
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary-600 focus:outline-none"
+                    disabled={loading}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary-600 focus:outline-none disabled:bg-gray-100"
                     placeholder="What is this about?"
                   />
                 </div>
@@ -156,17 +186,19 @@ const Contact = () => {
                     required
                     value={formData.message}
                     onChange={handleChange}
+                    disabled={loading}
                     rows="5"
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary-600 focus:outline-none"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-primary-600 focus:outline-none disabled:bg-gray-100"
                     placeholder="Your message here..."
                   ></textarea>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full btn-primary text-lg py-4"
+                  disabled={loading}
+                  className="w-full btn-primary text-lg py-4 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Send Message
+                  {loading ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
             </div>
